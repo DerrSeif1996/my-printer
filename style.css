@@ -1,0 +1,16 @@
+/* Label Preview Styling */
+#label-preview {
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #f9f9f9;
+    margin-top: 20px;
+}
+
+#label-content {
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.6;
+}
+
+#label-content strong {
+    font-weight: bold;
+}
