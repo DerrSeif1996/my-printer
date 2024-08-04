@@ -9,43 +9,45 @@
 </head>
 <body>
 
-
-    <div id="label-form">
-        <div class="form-group">
-            <label for="product-name">Nom de Model:</label>
-            <input type="text" id="product-name" placeholder="Enter product name">
+    <div class="container">
+        <div id="label-form">
+            <div class="form-group">
+                <label for="product-name">Nom de Model:</label>
+                <input type="text" id="product-name" placeholder="Enter product name">
+            </div>
+            <div class="form-group">
+                <label for="Forma">Forma:</label>
+                <input id="Forma" placeholder="Enter Forma"></input>
+            </div>
+            <div class="form-group">
+                <label for="Ndecarton">N de Carton:</label>
+                <input type="number" id="Ndecarton" placeholder="Enter N de carton">
+            </div>
+            <div class="form-group">
+                <label for="Ndepiece">N de Piece:</label>
+                <input type="number" id="Ndepiece" placeholder="Enter N de piece">
+            </div>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date">
+            </div>
+            <div id="cliberbtns">
+                <button onclick="Alllabels('1er C1')">1er C1</button>
+                <button onclick="Alllabels('1er C2')">1er C2</button>
+                <button onclick="Alllabels('1er C3')">1er C3</button>
+                <button onclick="Alllabels('1er C4')">1er C4</button>
+                <button onclick="Alllabels('2eme')">2 eme</button>
+                <button onclick="Alllabels('3eme')">3 eme</button>
+            </div>
+            <div>
+                <button onclick="printLabel()">Imprimer</button>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="Forma">Forma:450x450?</label>
-            <input id="Forma" placeholder="Enter Forma"></input>
+        <div id="label-preview">
+            <div id="label-content"></div>
         </div>
-        <div class="form-group">
-            <label for="Ndecarton">N de Carton:</label>
-            <input type="text" id="Ndecarton" placeholder="Enter N de carton">
-        </div>
-        <div class="form-group">
-            <label for="date">Date:</label>
-            <input type="date" id="date">
-            
-        </div>
-    </div>
-    <div id="cliberbtns">
-        <button onclick="Alllabels(`1er C1`)">1er C1</button>
-        <button onclick="Alllabels(`1er C2`)">1er C2</button>
-        <button onclick="Alllabels(`1er C3`)">1er C3</button>
-        <button onclick="Alllabels(`1er C4`)">1er C4</button>
-        <button onclick="Alllabels(`2eme`)">2 eme</button>
-        <button onclick="Alllabels(`3eme`)">3 eme</button>
-    </div>
-    <div>
-        <button onclick="printLabel()">imprimer</button>
     </div>
     
-    <div id="label-preview" style="display:none;">
-        
-        <div id="label-content"></div>
-        
-    </div>
     
 
 
