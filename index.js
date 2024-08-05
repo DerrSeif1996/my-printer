@@ -20,8 +20,48 @@ function printLabel() {
     attachEventListeners();
 }
 
-
-
+const generateLabelContent = (object) => {
+    return (
+    `<div class="card-div">
+        <div class="header">
+            <img src="${object.imageURL}" alt="Sadjia Ceram">
+            <h1 class="uppercase-text" >sadjia ceram</h1>
+            <img src="${object.imageURL}" alt="Sadjia Ceram">
+        </div>
+        <div class="general-info">
+            <h2 class="uppercase-text" >zone industrielle sidi bouamama sidi chahmi essenia</h2>
+            <h2>Tel: 05 60 83 83 83</h2>
+        </div>
+        <div class="model-and-format-div">
+            <div class="labeled-div">
+                <label class="label uppercase-text" for="model-color">model:</label>
+                <h2 id="model">${object.productName}</h2>
+            </div>
+            <div class="labeled-div">
+                <label class="uppercase-text label" for="format">format:</label>
+                <h2 id="format">${object.format}</h2>
+            </div>
+        </div>
+        <div class="dimensions-div">
+            <h2>${object.cartonNumbers} cartons</h2>
+            <h2>${object.pieceNumber} pieces/crt</h2>
+            <h2>${object.surface} </h2>
+        </div>
+        <div class="data-and-time">
+            <div class="labeled-div"">
+                <label class="uppercase-text label" for="date">date:</label>
+                <h2 id="date">${object.date}</h2>
+            </div>
+        </div>
+        <div class="choice-div">
+            <div class="labeled-div"">
+                <label class= "uppercase-text labelChoice" for="choice">choix:</label>
+                <h2 id="choice">${object.caliber}</h2>
+            </div>
+        </div>
+    </div> `
+    );
+}
 
 function Alllabels(caliber) {
     var { productName, Ndecarton, Ndepiece, date } = savingvalues();
@@ -29,38 +69,18 @@ function Alllabels(caliber) {
     var Forma = hundelforma();
     var imageURL = "images/download.png";
 
-    var labelContent = `
-        <div class="label-container">
-        <div class="head">
-            <img src="${imageURL}" alt="Sadjia Ceram" class="company-logo">
-            <h1 class="company-name">SADJIA CERAM</h1>
-            <img src="${imageURL}" alt="Sadjia Ceram" class="company-logo">
-        </div>
-            <p class="company-address">ZONE INDUSTRIELLE SIDI BOUAMAMA SIDI CHAHMI ESSENIA</p>
-            <p class="company-phone">Tel : 05 60 83 83 83</p>
-            
-            <div class="product-details">
-                <div class="detail-row1">
-                    <span id="detail-label1" class="detail-label">MODEL :</span>
-                    <span  class="detail-value">${productName}</span>
-                    <span id="detail-label2" class="detail-label">FORMAT :</span>
-                    <span  class="detail-value">${Forma}</span>
-                </div>
-                
-                <div class="detail-row">
-                    <span class="detail-value">${Ndecarton} CARTON</span>
-                    <span class="detail-value">${Ndepiece} PIECES/CRT</span>
-                    <span class="detail-value">${surface}</span>
-                </div>
-                
-            </div>
-            
-            <p class="date-info">DATE: ${date}</p>
-            
-            <p class="caliber-choice">CHOIX: ${caliber}</p>
-        </div>
-    `;
-    
+    const object = {
+        productName,
+        cartonNumbers: Ndecarton,
+        pieceNumber: Ndepiece,
+        date,
+        format: Forma,
+        surface,
+        imageURL,
+        caliber
+    };
+
+    const labelContent = generateLabelContent(object);    
     document.getElementById('label-content').innerHTML = labelContent;
     document.getElementById('label-preview').style.display = 'flex';
 }
