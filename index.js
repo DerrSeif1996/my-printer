@@ -23,35 +23,46 @@ function printLabel() {
 
 
 
-function Alllabels(caliber){
-    var { productName, Ndecarton, Ndepiece,date } = savingvalues();
-    var surface = surfacearea() + " M^2";
+function Alllabels(caliber) {
+    var { productName, Ndecarton, Ndepiece, date } = savingvalues();
+    var surface = surfacearea() + " M²";
     var Forma = hundelforma();
-    var imageURL = "images/download.png" ;
+    var imageURL = "images/download.png";
 
     var labelContent = `
-
-    <img src="${imageURL}" alt="Label Image" style="
-    display: block; 
-    width: 400px; 
-    height: auto; 
-    margin: 10px auto 0;
-    " /><br>
-
-    <strong>Nom de Model:</strong> ${productName} <br>
-    <strong>Caliber:</strong> ${caliber} <br>
-    <strong>Forma:</strong> ${Forma} <br>
-    <strong>surface:</strong> ${surface} <br>
-    <strong>N de Carton:</strong> ${Ndecarton} 
-    <strong>N de Piece:</strong> ${Ndepiece}<br>
-    <strong>Date:</strong> ${date} 
-
+        <div class="label-container">
+        <div class="head">
+            <img src="${imageURL}" alt="Sadjia Ceram" class="company-logo">
+            <h1 class="company-name">SADJIA CERAM</h1>
+            <img src="${imageURL}" alt="Sadjia Ceram" class="company-logo">
+        </div>
+            <p class="company-address">ZONE INDUSTRIELLE SIDI BOUAMAMA SIDI CHAHMI ESSENIA</p>
+            <p class="company-phone">Tel : 05 60 83 83 83</p>
+            
+            <div class="product-details">
+                <div class="detail-row1">
+                    <span id="detail-label1" class="detail-label">MODEL :</span>
+                    <span  class="detail-value">${productName}</span>
+                    <span id="detail-label2" class="detail-label">FORMAT :</span>
+                    <span  class="detail-value">${Forma}</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-value">${Ndecarton} CARTON</span>
+                    <span class="detail-value">${Ndepiece} PIECES/CRT</span>
+                    <span class="detail-value">${surface}</span>
+                </div>
+                
+            </div>
+            
+            <p class="date-info">DATE: ${date}</p>
+            
+            <p class="caliber-choice">CHOIX: ${caliber}</p>
+        </div>
     `;
+    
     document.getElementById('label-content').innerHTML = labelContent;
-    document.getElementById('label-preview').style.display = 'block';
-
-    
-    
+    document.getElementById('label-preview').style.display = 'flex';
 }
 
 

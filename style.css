@@ -1,42 +1,35 @@
-/* Reset some default styles for consistency across browsers */
+/* Reset and base styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Flex container for form and preview */
-.container {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px; /* Space between form and preview */
-}
-
-/* Base styles for body */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
     padding: 20px;
+    margin: 0;
 }
 
-/* Heading style */
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
+/* Layout */
+.container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
 }
 
-/* Style for the form */
+/* Form styles */
 #label-form {
-    flex: 1; /* Form takes up available space */
+    flex: 1;
     background-color: #fff;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 500px;
 }
 
-/* Styles for form groups */
 .form-group {
     margin-bottom: 15px;
 }
@@ -48,7 +41,8 @@ label {
 }
 
 input[type="text"],
-input[type="date"] {
+input[type="date"],
+input[type="number"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -57,59 +51,13 @@ input[type="date"] {
 }
 
 input[type="text"]:focus,
-input[type="date"]:focus {
+input[type="date"]:focus,
+input[type="number"]:focus {
     border-color: #007BFF;
     outline: none;
 }
 
 /* Button styles */
-#cliberbtns {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 0;
-}
-
-#cliberbtns button {
-    flex: 1;
-    padding: 10px 20px;
-    margin: 0 5px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-#cliberbtns button:hover {
-    background-color: #0056b3;
-}
-
-/* Style for label preview */
-#label-preview {
-    flex: 1; /* Preview takes up available space */
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    display: none; /* Hide preview by default */
-}
-
-/* Label content styling */
-#label-content {
-    font-size: 18px;
-}
-
-#label-content img {
-    display: block;
-    margin: 10px auto;
-    max-width: 100%; /* Ensure image fits within the container */
-    height: auto;
-}
-
-/* Button styling */
 button {
     display: block;
     width: 100%;
@@ -127,32 +75,139 @@ button:hover {
     background-color: #218838;
 }
 
-/* Print styles */
-@media print {
-    body {
-        margin: 10;
-        padding: 10;
-    }
+#cliberbtns {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
 
-    .container {
-        display: block; /* Stack form and preview vertically for print */
-    }
+#cliberbtns button {
+    flex: 1;
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #007BFF;
+}
 
-    #label-preview {
-        display: block; /* Show preview in print */
-        width: 148mm; /* A5 width */
-        height: 210mm; /* A5 height */
-        margin: 0;
-        padding: 0;
-        box-shadow: none;
-    }
+#cliberbtns button:hover {
+    background-color: #0056b3;
+}
 
-    #label-content {
-        font-size: 18px; /* Adjust font size for print */
-    }
+/* Label preview styles */
+#label-preview {
+    flex: 1;
+    width: 210mm;
+    height: 140mm;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    #label-content img {
-        max-width: 100%;
-        height: auto;
-    }
+/* Company Logo */
+.company-logo {
+    width: 20%;
+    max-width: 50mm;
+    height: auto;
+    margin-bottom: 5mm;
+}
+
+/* Company Name */
+.company-name {
+    font-size: 30pt;
+    font-weight: bold;
+    text-align: center;
+    margin: 5mm 0;
+}
+
+/* Company Address and Phone */
+.company-address, .company-phone {
+    font-size: 16pt;
+    margin: 2mm 0;
+    text-align: center;
+}
+
+/* Product Details */
+.product-details {
+    width: 100%;
+    margin-top: 10mm;
+    font-size: 12pt;
+}
+
+.detail-row, .detail-row1 {
+    display: flex;
+    justify-content: space-between;
+    margin: 3mm 0;
+}
+
+.detail-label {
+    font-weight: bold;
+    font-size: 12pt; 
+}
+
+.detail-value {
+    margin-left: 10mm;
+    text-align: left;
+}
+
+#detail-label2 {
+    margin-left: 50%;
+}
+
+/* Date Info */
+.date-info {
+    font-size: 14pt;
+    margin: 5mm 0;
+    text-align: center;
+}
+
+/* Caliber Choice */
+.caliber-choice {
+    font-size: 20pt;
+    font-weight: bold;
+    margin-top: 4mm;
+    text-align: center;
+}
+
+.choice {
+    width: 100%;
+    text-align: center;
+    margin-top: 10mm;
+}
+
+/* Label Content Image */
+#label-content img {
+    display: flex;
+    margin: 10px auto;
+    max-width: 50%;
+    height: auto;
+}
+
+/* Additional Styles */
+.head {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20pt;
+    font-weight: bold;
+    margin: 5mm 0;
+    text-align: center;
+}
+
+.label-container {
+    width: 210mm;
+    height: 140mm;
+    padding: 10mm;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    font-size: 10pt; /* Base font size */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
