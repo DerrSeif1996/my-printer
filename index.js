@@ -1,24 +1,17 @@
 function printLabel() {
     const values = savingvalues();
     const { productName, size, Ndecarton, Ndepiece, date, caliber, Ndepiecevrac, Ndevrac } = values;
-    
-    // Save original content and replace with label content for printing
     const originalContent = document.body.innerHTML;
     const labelContent = document.getElementById('label-preview').innerHTML;
     document.body.innerHTML = labelContent;
-    window.print();
-    document.body.innerHTML = originalContent;
-
-    // Restore values after printing
-    setInputValues(values);
-
-    // Update caliber selection
-    updateCaliberSelection(caliber);
-
-    // Reattach event listeners
-    attachEventListeners();
+    try {
+        window.print();
+    } finally {
+        document.body.innerHTML = originalContent;
+        setInputValues(values);
+        updateCaliberSelection(caliber);
+    }
 }
-
 function generateLabelContent(object) {
     return `
         <div class="card-div">
@@ -60,18 +53,21 @@ function generateLabelContent(object) {
             </div>
         </div>`;
 }
-
 function Alllabels(caliber) {
+
+    // geting saved values
     const values = savingvalues();
     const { productName, Ndecarton, Ndepiece, Ndepiecevrac, Ndevrac, date } = values;
+    //format size
     const format = formatSize(values.size);
+    //img
     const imageURL = "images/download.png";
+    //geting surface area
     const { surfacecarton, surfacevrac } = surfacearea(values);
-
     const surface = caliber === "3eme" ? surfacevrac + " M²" : surfacecarton + " M²";
     const cartonNumbers = caliber === "3eme" ? Ndevrac : Ndecarton;
     const pieceNumber = caliber === "3eme" ? Ndepiecevrac : Ndepiece;
-
+    //entring all values to
     const labelObject = { productName, cartonNumbers, pieceNumber, date, format, surface, imageURL, caliber };
     const labelContent = generateLabelContent(labelObject);
 
@@ -80,7 +76,6 @@ function Alllabels(caliber) {
 
     updateCaliberSelection(caliber);
 }
-
 function savingvalues() {
     return {
         productName: document.getElementById('product-name').value,
@@ -93,7 +88,6 @@ function savingvalues() {
         caliber: getSelectedCaliber()
     };
 }
-
 function surfacearea({ size, Ndecarton, Ndepiece, Ndepiecevrac, Ndevrac }) {
     const dimensions = size.split(/[^0-9]+/);
     if (dimensions.length < 2 || isNaN(dimensions[0]) || isNaN(dimensions[1])) return { surfacecarton: "Invalid", surfacevrac: "Invalid" };
@@ -133,11 +127,3 @@ function updateCaliberSelection(caliber) {
     });
 }
 
-function attachEventListeners() {
-    document.querySelectorAll('#cliberbtns button').forEach(button => {
-        button.addEventListener('click', () => {
-            const caliber = button.innerText;
-            Alllabels(caliber);
-        });
-    });
-}
