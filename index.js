@@ -1,24 +1,35 @@
      
 function printLabel() {
-      var { productName, size, Ndecarton, Ndepiece,date } = savingvalues();
-      
-      var originalContent = document.body.innerHTML;
-  
-      var labelContent = document.getElementById('label-preview').innerHTML;
-  
-      document.body.innerHTML = labelContent;
-  
-      window.print();
-  
-      document.body.innerHTML = originalContent;
-      document.getElementById('product-name').value = productName;
-      document.getElementById('Forma').value = size;
-      document.getElementById('Ndecarton').value = Ndecarton;
-      document.getElementById('Ndepiece').value = Ndepiece;
-      document.getElementById('date').value = date;
+    var { productName, size, Ndecarton, Ndepiece, date, caliber } = savingvalues();
+    
+    var originalContent = document.body.innerHTML;
+    var labelContent = document.getElementById('label-preview').innerHTML;
 
+    
+    document.body.innerHTML = labelContent;
+    window.print();
+    
+    document.body.innerHTML = originalContent;
+
+    
+    document.getElementById('product-name').value = productName;
+    document.getElementById('Forma').value = size;
+    document.getElementById('Ndecarton').value = Ndecarton;
+    document.getElementById('Ndepiece').value = Ndepiece;
+    document.getElementById('date').value = date;
+
+    
+    document.querySelectorAll('#cliberbtns button').forEach(function(button) {
+        button.classList.remove('selected');
+        if (button.innerText === caliber) {
+            button.classList.add('selected');
+        }
+    });
+
+    
     attachEventListeners();
 }
+
 
 const generateLabelContent = (object) => {
     return (
@@ -83,6 +94,11 @@ function Alllabels(caliber) {
     const labelContent = generateLabelContent(object);    
     document.getElementById('label-content').innerHTML = labelContent;
     document.getElementById('label-preview').style.display = 'flex';
+
+    
+    document.querySelectorAll('#cliberbtns button').forEach(function(button) {
+        button.classList.toggle('selected', button.innerText === caliber);
+    });
 }
 
 
@@ -92,7 +108,12 @@ function savingvalues(){
     var Ndecarton = document.getElementById('Ndecarton').value;
     var Ndepiece = document.getElementById('Ndepiece').value;
     var date = document.getElementById('date').value;
-    return {productName,size,Ndecarton,Ndepiece,date} ;
+
+    
+    var caliberButton = document.querySelector('#cliberbtns .selected');
+    var caliber = caliberButton ? caliberButton.innerText : "";
+
+    return {productName,size,Ndecarton,Ndepiece,date,caliber} ;
 }
 function surfacearea() {
     var { size ,Ndecarton,Ndepiece} = savingvalues();
@@ -116,10 +137,16 @@ function hundelforma() {
 }
 
 function attachEventListeners() {
-    document.querySelectorAll('#label-form button').forEach(function(button) {
+    document.querySelectorAll('#cliberbtns button').forEach(function(button) {
         button.addEventListener('click', function() {
-            var caliber = this.innerText;
-            Alllabels(caliber);
+            
+            document.querySelectorAll('#cliberbtns button').forEach(function(btn) {
+                btn.classList.remove('selected');
+            });
+            
+            this.classList.add('selected');
+            
+            Alllabels(this.innerText);
         });
     });
 }
