@@ -24,7 +24,7 @@ body {
 /* Form styles */
 #label-form {
     flex: 1;
-    background-color: #fff;
+    background-color: #b1b1b1;
     padding: 20px;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -32,7 +32,50 @@ body {
 }
 
 .form-group {
+    margin-top: 10px;
     margin-bottom: 15px;
+}
+
+.form-group1 {
+    display: flex;
+    justify-content: space-between; 
+    margin-top: 10px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column; /* Labels above inputs */
+    flex: 1; /* Ensures each container takes up equal space */
+    margin-right: 10px; /* Space between the input containers */
+}
+
+.input-container:last-child {
+    margin-right: 0; /* Remove margin on the last container */
+}
+
+.input-container label {
+    margin-bottom: 5px; /* Space between label and input */
+}
+
+.form-group2 {
+    display: flex;
+    justify-content: space-between; 
+    margin-top: 10px;
+}
+
+.input-container2 {
+    display: flex;
+    flex-direction: column; /* Labels above inputs */
+    flex: 1; /* Ensures each container takes up equal space */
+    margin-right: 10px; /* Space between the input containers */
+}
+
+.input-container2:last-child {
+    margin-right: 0; /* Remove margin on the last container */
+}
+
+.input-container2 label {
+    margin-bottom: 5px; /* Space between label and input */
 }
 
 label {
