@@ -136,9 +136,8 @@ function updateCaliberSelection(caliber) {
 function attachEventListeners() {
     document.querySelectorAll('#cliberbtns button').forEach(button => {
         button.addEventListener('click', () => {
-            document.querySelectorAll('#cliberbtns button').forEach(btn => btn.classList.remove('selected'));
-            button.classList.add('selected');
-            Alllabels(button.innerText);
+            const caliber = button.innerText;
+            Alllabels(caliber);
         });
     });
 }
