@@ -1,11 +1,16 @@
+let printedItems = [];
+
 function printLabel() {
     const values = savingvalues();
+    console.log('Values before printing:', values);
+    
     const { productName, size, Ndecarton, Ndepiece, date, caliber, Ndepiecevrac, Ndevrac } = values;
     const originalContent = document.body.innerHTML;
     const labelContent = document.getElementById('label-preview').innerHTML;
     document.body.innerHTML = labelContent;
     try {
         window.print();
+        addPrintedItem(values);
     } finally {
         document.body.innerHTML = originalContent;
         setInputValues(values);
@@ -121,9 +126,31 @@ function setInputValues({ productName, size, Ndecarton, Ndepiece, Ndevrac, Ndepi
     document.getElementById('date').value = date;
 }
 
-function updateCaliberSelection(caliber) {
-    document.querySelectorAll('#cliberbtns button').forEach(button => {
-        button.classList.toggle('selected', button.innerText === caliber);
+function updateCaliberSelection(selectedCaliber) {
+    const buttons = document.querySelectorAll('#cliberbtns button');
+    buttons.forEach(button => {
+        if (button.innerText === selectedCaliber) {
+            button.classList.add('selected');
+        } else {
+            button.classList.remove('selected');
+        }
     });
+}
+
+function addPrintedItem(values) {
+    printedItems.push(values);
+    console.log('Added printed item:', values);
+    updatePrintedList();
+}
+
+function updatePrintedList() {
+    const printedListElement = document.getElementById('printed-list');
+    printedListElement.innerHTML = '';
+    printedItems.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `Product: ${item.productName}, Format: ${item.size}, Caliber: ${item.caliber}, Cartons: ${item.Ndecarton}, Date: ${item.date}`;
+        printedListElement.appendChild(listItem);
+    });
+    console.log('Printed list updated:', printedItems);
 }
 
