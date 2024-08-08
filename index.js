@@ -1,5 +1,3 @@
-let printedItems = [];
-
 function printLabel() {
     const values = savingvalues();
     console.log('Values before printing:', values);
@@ -10,13 +8,14 @@ function printLabel() {
     document.body.innerHTML = labelContent;
     try {
         window.print();
-        addPrintedItem(values);
     } finally {
         document.body.innerHTML = originalContent;
         setInputValues(values);
         updateCaliberSelection(caliber);
+        additemstolist(caliber);
     }
 }
+
 function generateLabelContent(object) {
     return `
         <div class="card-div">
@@ -47,7 +46,7 @@ function generateLabelContent(object) {
             <div class="data-and-time">
                 <div class="labeled-div">
                     <label class="uppercase-text label" for="date">date:</label>
-                    <h2 id="date">${object.date}</h2>
+                    <h2 id="date">${object.date} / ${object.time}</h2>
                 </div>
             </div>
             <div class="choice-div">
@@ -58,22 +57,18 @@ function generateLabelContent(object) {
             </div>
         </div>`;
 }
-function Alllabels(caliber) {
 
-    // geting saved values
+function Alllabels(caliber) {
+    const time = getCurrentTime();
     const values = savingvalues();
     const { productName, Ndecarton, Ndepiece, Ndepiecevrac, Ndevrac, date } = values;
-    //format size
     const format = formatSize(values.size);
-    //img
     const imageURL = "images/download.png";
-    //geting surface area
     const { surfacecarton, surfacevrac } = surfacearea(values);
     const surface = caliber === "3eme" ? surfacevrac + " M²" : surfacecarton + " M²";
     const cartonNumbers = caliber === "3eme" ? Ndevrac : Ndecarton;
     const pieceNumber = caliber === "3eme" ? Ndepiecevrac : Ndepiece;
-    //entring all values to
-    const labelObject = { productName, cartonNumbers, pieceNumber, date, format, surface, imageURL, caliber };
+    const labelObject = { time, productName, cartonNumbers, pieceNumber, date, format, surface, imageURL, caliber };
     const labelContent = generateLabelContent(labelObject);
 
     document.getElementById('label-content').innerHTML = labelContent;
@@ -81,6 +76,7 @@ function Alllabels(caliber) {
 
     updateCaliberSelection(caliber);
 }
+
 function savingvalues() {
     return {
         productName: document.getElementById('product-name').value,
@@ -93,6 +89,7 @@ function savingvalues() {
         caliber: getSelectedCaliber()
     };
 }
+
 function surfacearea({ size, Ndecarton, Ndepiece, Ndepiecevrac, Ndevrac }) {
     const dimensions = size.split(/[^0-9]+/);
     if (dimensions.length < 2 || isNaN(dimensions[0]) || isNaN(dimensions[1])) return { surfacecarton: "Invalid", surfacevrac: "Invalid" };
@@ -137,20 +134,110 @@ function updateCaliberSelection(selectedCaliber) {
     });
 }
 
-function addPrintedItem(values) {
-    printedItems.push(values);
-    console.log('Added printed item:', values);
-    updatePrintedList();
+function additemstolist(caliber) {
+    const values = savingvalues();
+    const { productName, Ndecarton, size, Ndevrac, date } = values;
+    const time = getCurrentTime();
+    const selectedCaliber = caliber || getSelectedCaliber();
+
+    console.log('Selected Caliber:', selectedCaliber);
+    console.log('Adding item to list:', selectedCaliber);
+
+    const itemId = `item-${Date.now()}`;
+
+    const listItem = `<li id="${itemId}">
+        <span class="item-details">${selectedCaliber} | ${size} | ${Ndecarton} | ${time}</span>
+        <button class="delete-button" onclick="deleteItem('${itemId}')">Delete</button>
+    </li>`;
+
+    document.getElementById('printed-list').innerHTML += listItem;
 }
 
-function updatePrintedList() {
-    const printedListElement = document.getElementById('printed-list');
-    printedListElement.innerHTML = '';
-    printedItems.forEach(item => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `Product: ${item.productName}, Format: ${item.size}, Caliber: ${item.caliber}, Cartons: ${item.Ndecarton}, Date: ${item.date}`;
-        printedListElement.appendChild(listItem);
+function deleteItem(itemId) {
+    const item = document.getElementById(itemId);
+    if (item) {
+        item.remove();
+    } else {
+        console.error('Item not found:', itemId);
+    }
+}
+
+function printPrintedList() {
+    // Preserve current content and state
+    const originalContent = document.body.innerHTML;
+    const originalInputs = Array.from(document.querySelectorAll('input, select, textarea')).map(input => ({
+        id: input.id,
+        value: input.value
+    }));
+    
+    // Clone the printed list to avoid modifying the original DOM
+    const listElement = document.getElementById('printed-list');
+    const listClone = listElement.cloneNode(true);
+
+    // Remove delete buttons from the cloned list
+    const buttons = listClone.querySelectorAll('button');
+    buttons.forEach(button => button.remove());
+
+    // Get the modified list content
+    const listContent = listClone.outerHTML;
+
+    // Set the body content to the list content
+    document.body.innerHTML = `
+        <html>
+            <head>
+                <title>Print List</title>
+                <style>
+                    /* Add your print-specific styles here */
+                    body {
+                        font-family: Arial, sans-serif;
+                        margin: 20px;
+                    }
+                    #printed-list {
+                        border: 1px solid #ddd;
+                        padding: 10px;
+                        width: 100%;
+                    }
+                    #printed-list li {
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 5px;
+                        padding: 5px;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        white-space: nowrap; /* Prevents text wrapping */
+                        overflow: hidden; /* Hides overflowed text */
+                        text-overflow: ellipsis; /* Adds ellipsis (...) for overflowed text */
+                    }
+                    h1 {
+                        text-align: center;
+                        margin-bottom: 20px;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>Printed Items List</h1>
+                ${listContent}
+            </body>
+        </html>
+    `;
+
+    // Print the content
+    window.print();
+
+    // Restore the original content and input values
+    document.body.innerHTML = originalContent;
+    originalInputs.forEach(input => {
+        const element = document.getElementById(input.id);
+        if (element) {
+            element.value = input.value;
+        }
     });
-    console.log('Printed list updated:', printedItems);
 }
 
+
+function getCurrentTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
